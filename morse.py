@@ -67,6 +67,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('msg')
     ap.add_argument('-a', nargs='?', const='msg.wav')
+    ap.add_argument('-p', action='store_true')
     args = ap.parse_args()
 
     chars = enc_chars(args.msg)
@@ -75,9 +76,12 @@ if __name__ == '__main__':
     print(chars)
     print(pats)
 
-    if args.a:
+    if args.a or args.p:
         import cw
-        print("Saving audio to %s" % args.a)
         w = cw.frames(pats)
-        # cw.play(w)
-        cw.save(w, args.a)
+        if args.a:
+            print("Saving audio to %s" % args.a)
+            cw.save(w, args.a)
+        if args.p:
+            print("Playing...")
+            cw.play(w)
